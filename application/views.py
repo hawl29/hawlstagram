@@ -1,6 +1,6 @@
 # -*- encoding:utf-8 -*-
 
-from hawlstagram import app
+from application import app
 
 @app.route('/')
 def index():
