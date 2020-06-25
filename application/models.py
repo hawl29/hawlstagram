@@ -9,9 +9,9 @@ class User(db.Model):
     username = db.Column(db.String(80),unique=True)
     password = db.Column(db.String(32))
     head_url = db.Column(db.String(256))
-    
-    image = db.relationship('Image')
-    comments = db.relationship('Comment')
+    #设置backref，使得image中也有指向user的关系。
+    images = db.relationship('Image',backref='user',lazy='dynamic')
+    comments = db.relationship('Comment',backref='user',lazy='dynamic')
 
     def __init__(self,username,password):
         self.username = username
@@ -27,8 +27,7 @@ class Image(db.Model):
     url = db.Column(db.String(512))
     created_date = db.Column(db.DateTime)
 
-    User = db.relationship('User')
-    comments = db.relationship('Comment')
+    comments = db.relationship('Comment',backref='image',lazy='dynamic')
 
     def __init__(self,url,user_id):
         self.url = url
@@ -44,8 +43,8 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
     status = db.Column(db.Integer,default=0)
 
-    user = db.relationship('User')
-    image = db.relationship('Image')
+    #user = db.relationship('User')
+    #image = db.relationship('Image')
     
     def __init__(self,content,image_id,user_id):
         self.image_id = image_id
