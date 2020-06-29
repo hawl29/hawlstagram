@@ -2,7 +2,7 @@
 
 from application import app
 from flask import redirect,render_template
-from models import User,Image,Comment
+from application.models import User,Image,Comment
 
 @app.route('/')
 def index():
@@ -21,4 +21,4 @@ def profile(user_id):
     user = User.query.get(user_id)
     if user == None:
         return redirect('/')
-    return render_template('profile.html',usre = user)
+    return render_template('profile.html',user = user)

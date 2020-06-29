@@ -16,7 +16,7 @@ def init_database():
         for j in range(0,3):
             db.session.add(Image(get_url(),i+1))
             for k in range(0,3):
-                db.session.add(Comment('conment test'+str(k),3*i+j+1,i+1))
+                db.session.add(Comment('This is comment test'+str(k),3*i+j+1,i+1))
     db.session.commit()
 
 @manager.command
@@ -80,7 +80,10 @@ def query_test():
     #db.session.add(Comment('conmment test 0',1,1))
     #db.session.commit()
 
-    print(Image.query.order_by(Image.id.desc()).limit(10).all())
+    #print(Image.query.order_by(Image.id.desc()).limit(10).all())
+    a = Image.query.get(2)
+    b = Comment.query.get(1)
+    print(a.comments.all())
 
 def get_url():
     return 'http://images.nowcoder.com/head/'+str(random.randint(0,1000))+ 'm.png'

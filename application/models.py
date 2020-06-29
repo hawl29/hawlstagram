@@ -27,6 +27,8 @@ class Image(db.Model):
     url = db.Column(db.String(512))
     created_date = db.Column(db.DateTime)
 
+    #lazy指定的是image到comments的访问方式，dynamic将返回一个query对象
+    #selcet返回包含查询结果的list
     comments = db.relationship('Comment',backref='image',lazy='dynamic')
 
     def __init__(self,url,user_id):
@@ -51,5 +53,5 @@ class Comment(db.Model):
         self.user_id = user_id
         self.content = content
 
-    def __repr__():
+    def __repr__(self):
         return '<Comment %d %s>' % (self.id,self.content)
