@@ -9,15 +9,16 @@ class User(db.Model):
     username = db.Column(db.String(80),unique=True)
     password = db.Column(db.String(32))
     head_url = db.Column(db.String(256))
+    salt = db.Column(db.String(12))
     #设置backref，使得image中也有指向user的关系。
     images = db.relationship('Image',backref='user',lazy='dynamic')
     comments = db.relationship('Comment',backref='user',lazy='dynamic')
 
-    def __init__(self,username,password):
+    def __init__(self,username,password,salt=''):
         self.username = username
         self.password = password
         self.head_url = 'http://images.nowcoder.com/head/'+str(random.randint(0,1000))+ 'm.png'
-
+        self.salt = salt
     def __repr__(self):
         return '<User %d %s>' % (self.id,self.username)
 

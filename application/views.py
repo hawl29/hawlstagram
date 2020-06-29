@@ -1,8 +1,10 @@
 # -*- encoding:utf-8 -*-
 
-from application import app
-from flask import redirect,render_template
+from application import app,db
+from flask import redirect,render_template,request,flash,get_flashed_messages
 from application.models import User,Image,Comment
+import random,hashlib 
+
 
 @app.route('/')
 def index():
@@ -22,3 +24,42 @@ def profile(user_id):
     if user == None:
         return redirect('/')
     return render_template('profile.html',user = user)
+
+@app.route('/regloginpage')
+def login():
+    msg = ''
+    for m in get_flashed_messages(with_categories=False,category_filter='reg'):
+        msg = msg+m
+    return render_template('login.html',msg=msg)
+
+
+def redirect_with_msg(target,msg,cate):
+    if msg != None:
+        flash(msg,category=cate)
+    return redirect(target)
+
+@app.route('/reg/',methods=['GET','POST'])
+def reg():
+    username = request.values.get('username').strip()
+    password = request.values.get('password').strip()
+    if username == '' or password == '':
+        return redirect_with_msg('/regloginpage',u'用户名或密码不能为空','reg')
+    user = User.query.filter_by(username = username).first()
+    if user != None:
+        return redirect_with_msg('/regloginpage',u'用户名已存在','reg')
+    #其它判断
+    temp = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    salt = ''.join(random.sample(temp,10))
+    m = hashlib.md5()
+    m.update((password+salt).encode('utf-8'))
+    password = m.hexdigest()
+    db.session.add(User(username,password,salt))
+    db.session.commit()
+    return redirect('/')
+
+
+
+
+
+
+
