@@ -14,7 +14,7 @@
                                 {%if (msg|length) > 0 %}
                                 <b>{{msg}}</b>
                                 {%else%}
-                                注册 HawlsTagram
+                                注册 HawlsTagrams
                                 {%endif%}
                             </h2>
                             <div class="form-item">
@@ -23,12 +23,13 @@
                             <div class="form-item">
                                 <input class="input-txt" aria-describedby="" aria-label="密码" aria-required="true" autocapitalize="off" autocorrect="off" name="password" placeholder="密码" type="password" value="" data-reactid=".0.1.0.1.0.1.0.6.0">
                             </div>
+                            <input type="hidden" name="next" value="{{next}}">
                             <div class="btn-wrapper">
                                 <button class="btn-primary" onclick="form=document.getElementById('regloginform');form.action='/reg/'">注册</button>
-                                <button class="btn-primary">登录</button>
+                                <button class="btn-primary" onclick="form=document.getElementById('regloginform');form.action='/login/'">登录</button>
                             </div>
                             <p class="agreenment">
-                                <span>注册即表示你同意我们的 </span>
+                                <span>注册表示你同意我们的 </span>
                                 <a class="agreenment-link" href="/legal/terms/" target="_blank">条款</a>
                                 <span data-reactid=".0.1.0.1.0.1.0.9.2"> 和 </span>
                                 <a class="agreenment-link" href="/legal/privacy/" target="_blank">隐私权政策</a>
